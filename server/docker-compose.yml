@@ -1,0 +1,10 @@
+version: '3.7'
+services:
+  python3:
+    build: ./
+    ports:
+      - "8080:80"
+    container_name: 'python-server'
+    tty: true
+    volumes:
+      - ./volume:/root/volume
