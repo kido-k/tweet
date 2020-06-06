@@ -7,6 +7,9 @@ import os
 from dotenv import load_dotenv
 from pathlib import Path
 
+env_path = Path('.') / '.env'
+load_dotenv(dotenv_path=env_path)
+
 class Tweet:
     def __init__(self, tweet_data):
         tweet = tweet_data._json
@@ -52,11 +55,7 @@ class Tweet:
             return self.user['id']
 
 
-def get_tweet_data(keyword):
-    env_path = Path('.') / '.env'
-    load_dotenv(dotenv_path=env_path)
-    print(os.getenv('DB_PATH'))
-
+def get_tweet_data(keyword, use_retweet):
     #python で Twitter APIを使用するためのConsumerキー、アクセストークン設定
     Consumer_key = os.getenv('TWITTER_CONSUMER_KEY')
     Consumer_secret = os.getenv('TWITTER_CONSUMER_SECRET')
@@ -69,6 +68,8 @@ def get_tweet_data(keyword):
     api = tweepy.API(auth, wait_on_rate_limit = True)
 
     q = keyword
+    if use_retweet == False:
+        q += ' -RT'
 
     tweet_list =[]
 

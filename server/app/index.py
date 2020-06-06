@@ -3,9 +3,10 @@ import json
 
 from app import get_tweet_data
 from app import analyze_tweet_data
+from flask_cors import CORS
 
 app = Flask(__name__)
-
+CORS(app)
 
 @app.route('/', methods=['GET'])
 def index():
@@ -17,8 +18,9 @@ def analyze_tweet():
   post_data = request.data.decode('utf-8')
   post_data = json.loads(post_data)
   print(post_data['keyword'])
+  print(post_data['use_retweet'])
   try:
-    get_tweet_data.get_tweet_data(post_data['keyword'])
+    get_tweet_data.get_tweet_data(post_data['keyword'], post_data['use_retweet'])
     result = analyze_tweet_data.analyze_tweet_data()
     return Response(response=json.dumps(result), status=200)
   except expression as identifier:
